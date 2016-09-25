@@ -15,6 +15,7 @@
  */
 package difflib;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,11 +33,12 @@ import java.util.List;
  * @author <a href="dm.naumenko@gmail.com>Dmitry Naumenko</a>
  * @param T The type of the compared elements in the 'lines'.
  */
-public class Chunk<T> {
+public class Chunk<T extends Serializable> implements Serializable {
 
-    private final int position;
+    private int position;
     private List<T> lines;
-    
+
+    Chunk() {}
     /**
      * Creates a chunk and saves a copy of affected lines
      * 

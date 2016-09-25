@@ -18,10 +18,13 @@ package difflib;
 import difflib.myers.Equalizer;
 import difflib.myers.MyersDiff;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static javafx.scene.input.KeyCode.T;
 
 /**
  * Implements the difference and patching engine
@@ -47,7 +50,7 @@ public class DiffUtils {
 	 * @return The patch describing the difference between the original and
 	 *         revised sequences. Never {@code null}.
 	 */
-	public static <T> Patch<T> diff(List<T> original, List<T> revised) {
+	public static <T extends Serializable> Patch<T> diff(List<T> original, List<T> revised) {
 		return DiffUtils.diff(original, revised, new MyersDiff<T>());
 	}
 
@@ -67,7 +70,7 @@ public class DiffUtils {
 	 * @return The patch describing the difference between the original and
 	 *         revised sequences. Never {@code null}.
 	 */
-	public static <T> Patch<T> diff(List<T> original, List<T> revised,
+	public static <T extends Serializable> Patch<T> diff(List<T> original, List<T> revised,
 			Equalizer<T> equalizer) {
 		if (equalizer != null) {
 			return DiffUtils.diff(original, revised,
@@ -89,7 +92,7 @@ public class DiffUtils {
 	 * @return The patch describing the difference between the original and
 	 *         revised sequences. Never {@code null}.
 	 */
-	public static <T> Patch<T> diff(List<T> original, List<T> revised,
+	public static <T extends Serializable> Patch<T> diff(List<T> original, List<T> revised,
 			DiffAlgorithm<T> algorithm) {
 		if (original == null) {
 			throw new IllegalArgumentException("original must not be null");
@@ -114,7 +117,7 @@ public class DiffUtils {
 	 * @throws PatchFailedException
 	 *             if can't apply patch
 	 */
-	public static <T> List<T> patch(List<T> original, Patch<T> patch)
+	public static <T extends Serializable> List<T> patch(List<T> original, Patch<T> patch)
 			throws PatchFailedException {
 		return patch.applyTo(original);
 	}
@@ -128,7 +131,7 @@ public class DiffUtils {
 	 *            the given patch
 	 * @return the original text
 	 */
-	public static <T> List<T> unpatch(List<T> revised, Patch<T> patch) {
+	public static <T extends Serializable> List<T> unpatch(List<T> revised, Patch<T> patch) {
 		return patch.restore(revised);
 	}
 

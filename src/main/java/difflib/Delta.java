@@ -15,6 +15,7 @@
  */
 package difflib;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -23,7 +24,7 @@ import java.util.*;
  * @author <a href="dm.naumenko@gmail.com">Dmitry Naumenko</a>
  * @param T The type of the compared elements in the 'lines'.
  */
-public abstract class Delta<T> {
+public abstract class Delta<T extends Serializable> implements Serializable {
 	
 	/** The original chunk. */
     private Chunk<T> original;
@@ -43,7 +44,9 @@ public abstract class Delta<T> {
         /** An insert into the original. */
         INSERT
     }
-    
+
+    public Delta() {}
+
     /**
      * Construct the delta for original and revised chunks
      * 

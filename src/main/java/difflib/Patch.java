@@ -15,6 +15,7 @@
  */
 package difflib;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.ListIterator;
  * @author <a href="dm.naumenko@gmail.com">Dmitry Naumenko</a>
  * @param T The type of the compared elements in the 'lines'.
  */
-public class Patch<T> {
+public class Patch<T extends Serializable> implements Serializable {
     private List<Delta<T>> deltas = new LinkedList<Delta<T>>();
 
     /**
@@ -74,5 +75,24 @@ public class Patch<T> {
     public List<Delta<T>> getDeltas() {
         Collections.sort(deltas, DeltaComparator.INSTANCE);
         return deltas;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Patch<T> other = (Patch) obj;
+        if (other.deltas.size() != deltas.size())
+            return false;
+        for (int i = 0; i < deltas.size(); i++) {
+            if (!deltas.get(i).equals(other.deltas.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

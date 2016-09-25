@@ -15,6 +15,7 @@
  */
 package difflib;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -23,7 +24,7 @@ import java.util.*;
  * @author <a href="dm.naumenko@gmail.com">Dmitry Naumenko</a>
  * @param T The type of the compared elements in the 'lines'.
  */
-public interface DiffAlgorithm<T> {
+public interface DiffAlgorithm<T extends Serializable> {
     
     /**
      * Computes the difference between the original sequence and the revised

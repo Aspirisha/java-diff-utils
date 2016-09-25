@@ -15,6 +15,7 @@
  */
 package difflib;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -23,8 +24,9 @@ import java.util.List;
  * @author <a href="dm.naumenko@gmail.com">Dmitry Naumenko</a>
  * @param T The type of the compared elements in the 'lines'.
  */
-public class ChangeDelta<T> extends Delta<T> {
-    
+public class ChangeDelta<T extends Serializable> extends Delta<T> implements Serializable {
+
+    public ChangeDelta() {}
     /**
      * Creates a change delta with the two given chunks.
      * @param original The original chunk. Must not be {@code null}.

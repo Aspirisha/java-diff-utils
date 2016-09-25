@@ -3,8 +3,10 @@ package diffutils;
 import difflib.DiffUtils;
 import difflib.Patch;
 import difflib.PatchFailedException;
+import difflib.StringUtills;
 import junit.framework.TestCase;
 
+import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,5 +46,47 @@ public class PatchTest extends TestCase {
         } catch (PatchFailedException e) {
             fail(e.getMessage());
         }
+    }
+
+    public void testPatch_Serialize() {
+        final List<String> changeTest_from = Arrays.asList("aaa", "bbb", "ccc", "ddd");
+        final List<String> changeTest_to = Arrays.asList("aaa", "bxb", "cxc", "ddd");
+
+        final Patch<String> patch = DiffUtils.diff(changeTest_from, changeTest_to);
+
+        final String tempFile = StringUtills.join(Arrays.asList("src", "test", "resources", "serialize_test.ser"), File.separator);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(tempFile);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(patch);
+            oos.close();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            fail("file not found");
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail("IOException");
+        }
+
+        Patch restored = null;
+        try {
+            FileInputStream fis = new FileInputStream(tempFile);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            restored = (Patch) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            fail("fail not found");
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail("IOException");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(patch, restored);
     }
 }

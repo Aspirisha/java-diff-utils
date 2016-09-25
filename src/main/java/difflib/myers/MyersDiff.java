@@ -59,6 +59,7 @@ package difflib.myers;
 
 import difflib.*;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,7 +75,7 @@ import java.util.List;
  * @author <a href="mailto:juanco@suigeneris.org">Juanco Anez</a>
  * T The type of the compared elements in the 'lines'.
  */
-public class MyersDiff<T> implements DiffAlgorithm<T> {
+public class MyersDiff<T extends Serializable> implements DiffAlgorithm<T> {
     
 	/**	Default equalizer. */
 	private final Equalizer<T> DEFAULT_EQUALIZER = new Equalizer<T>() {
